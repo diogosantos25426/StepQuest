@@ -1,78 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo">
+
+    <!-- Top Profile Header -->
+    <ImageButton
+        android:id="@+id/btn_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_dialog_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/fundo" />
-
-    <ImageView
-        android:id="@+id/logo_menu"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:src="@drawable/logo" />
+        android:id="@+id/iv_profile_portrait"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/retrato_perfil"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_info"
+        app:layout_constraintStart_toEndOf="@+id/btn_info"
+        app:layout_constraintTop_toTopOf="@+id/btn_info" />
 
     <LinearLayout
-        android:id="@+id/buttons_container"
-        android:layout_width="match_parent"
+        android:id="@+id/ll_bars"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        app:layout_constraintBottom_toBottomOf="@+id/iv_profile_portrait"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile_portrait"
+        app:layout_constraintTop_toTopOf="@+id/iv_profile_portrait">
 
-        <Button
-            android:id="@+id/btn_play"
-            android:layout_width="220dp"
-            android:layout_height="64dp"
-            android:layout_marginVertical="12dp"
-            android:background="@drawable/btn_medieval"
-            android:text="START QUEST"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            style="?android:attr/borderlessButtonStyle" />
+        <ProgressBar
+            android:id="@+id/pb_energy"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_marginBottom="4dp"
+            android:max="100"
+            android:progress="80"
+            android:progressDrawable="@drawable/progressbar"
+            android:progressTint="#4CAF50" />
 
-        <Button
-            android:id="@+id/btn_settings"
-            android:layout_width="220dp"
-            android:layout_height="64dp"
-            android:layout_marginVertical="12dp"
-            android:background="@drawable/btn_medieval"
-            android:text="SETTINGS"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            style="?android:attr/borderlessButtonStyle" />
-
-        <Button
-            android:id="@+id/btn_manual"
-            android:layout_width="220dp"
-            android:layout_height="64dp"
-            android:layout_marginVertical="12dp"
-            android:background="@drawable/btn_medieval"
-            android:text="TUTORIAL"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            style="?android:attr/borderlessButtonStyle" />
-
+        <ProgressBar
+            android:id="@+id/pb_xp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:max="100"
+            android:progress="40"
+            android:progressDrawable="@drawable/progressbar"
+            android:progressTint="#2196F3" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/hero_animation"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="Hero Animation" />
+    <FrameLayout
+        android:id="@+id/fl_steps"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/ll_bars"
+        app:layout_constraintStart_toStartOf="@+id/ll_bars"
+        app:layout_constraintTop_toBottomOf="@+id/ll_bars">
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/moldura" />
+
+        <TextView
+            android:id="@+id/tv_steps_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Passos: 1200 / Meta: 5000"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- Center Hero Animation -->
+    <ImageView
+        android:id="@+id/iv_hero_walk"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="Hero Walking"
+        app:layout_constraintBottom_toTopOf="@+id/gl_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_steps" />
+
+    <!-- Bottom Navigation Grid -->
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gl_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="16dp"
+        app:columnCount="4"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Item 1: Mapa -->
+        <FrameLayout
+            android:id="@+id/btn_nav_map"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            app:layout_columnWeight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/moldura" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/mapa" />
+        </FrameLayout>
+
+        <!-- Item 2: Inventário -->
+        <FrameLayout
+            android:id="@+id/btn_nav_inventory"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            app:layout_columnWeight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/moldura" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/inventario" />
+        </FrameLayout>
+
+        <!-- Item 3: Missões -->
+        <FrameLayout
+            android:id="@+id/btn_nav_quests"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            app:layout_columnWeight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/moldura" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/missoes" />
+        </FrameLayout>
+
+        <!-- Item 4: Estatísticas -->
+        <FrameLayout
+            android:id="@+id/btn_nav_stats"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            app:layout_columnWeight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/moldura" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/estatisticas" />
+        </FrameLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,7 +52,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
         userId = sessionManager.getUserId()
 
         btnLevel1 = findViewById(R.id.btn_level_1)
-        btnLevel2 = findViewById(R.id.btn_level_2)
+        btnLevel2 = findViewById(R.id.btn_level_8)
         btnLevel3 = findViewById(R.id.btn_level_3)
         pbSteps = findViewById(R.id.pb_steps)
         tvStepCount = findViewById(R.id.tv_step_count)
