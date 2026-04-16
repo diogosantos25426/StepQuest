@@ -44,6 +44,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".BattleActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
 

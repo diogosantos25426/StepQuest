@@ -39,7 +39,8 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var pbSteps: ProgressBar
     private lateinit var tvStepCount: TextView
 
-    private val DEBUG_STEP_LIMIT = 5
+    // Nível 1 desbloqueado por defeito (0 passos) para testes
+    private val DEBUG_STEP_LIMIT = 0 
     private val LEVEL_2_LIMIT = 500
     private val LEVEL_3_LIMIT = 1000
 
@@ -134,10 +135,7 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
-            // Nota: O TYPE_STEP_COUNTER retorna o total desde o boot. 
-            // Para simplicidade neste RPG, usaremos o valor incremental.
-            // Em produção, deve-se subtrair o valor inicial do dia.
-            stepsToday = event.values[0].toInt() % 1001 // Simulação de passos diários
+            stepsToday = event.values[0].toInt() % 1001
             updateMapUI()
         }
     }
