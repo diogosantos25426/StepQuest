@@ -27,6 +27,10 @@ class SessionManager(context: Context) {
         return prefs.getString(USERNAME, null)
     }
 
+    fun isLoggedIn(): Boolean {
+        return getUserId() != -1
+    }
+
     fun logout() {
         prefs.edit().clear().apply()
     }

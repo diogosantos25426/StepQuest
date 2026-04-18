@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    
+    // Novas dependências para UI Clássica e Inventário
+    implementation(libs.material)
+    implementation(libs.androidx.recyclerview)
 
     // Room dependencies
     implementation(libs.androidx.room.runtime)

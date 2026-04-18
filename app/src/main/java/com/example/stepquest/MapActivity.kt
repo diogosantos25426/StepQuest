@@ -91,7 +91,12 @@ class MapActivity : AppCompatActivity(), SensorEventListener {
 
     private fun handleLevelClick(level: Int, requiredSteps: Int) {
         if (stepsToday >= requiredSteps || lastUnlockedLevel >= level) {
-            val intent = Intent(this, LevelActivity::class.java)
+            val intent = if (level == 1) {
+                // Ir direto para a batalha se for o Nível 1
+                Intent(this, BattleActivity::class.java)
+            } else {
+                Intent(this, LevelActivity::class.java)
+            }
             intent.putExtra("LEVEL_ID", level)
             startActivity(intent)
         } else {

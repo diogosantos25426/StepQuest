@@ -21,17 +21,17 @@
     <!-- Zona do Inimigo (Topo) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_enemy_zone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_enemy"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:src="@drawable/spritesheet_inimigo1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
             android:id="@+id/fl_enemy_status"
             android:layout_width="200dp"
             android:layout_height="60dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="-16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_enemy">
@@ -100,8 +100,9 @@
     <!-- Zona do Herói (Centro) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_hero_zone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/fl_commands"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,8 +110,8 @@
 
         <ImageView
             android:id="@+id/iv_hero"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="280dp"
+            android:layout_height="220dp"
             android:src="@drawable/spritesheet_heroicombate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +121,7 @@
             android:id="@+id/fl_hero_status"
             android:layout_width="220dp"
             android:layout_height="80dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="-20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_hero">

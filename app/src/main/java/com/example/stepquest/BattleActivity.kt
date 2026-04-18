@@ -12,6 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.stepquest.data.AppDatabase
+import com.example.stepquest.data.Item
+import com.example.stepquest.data.SessionManager
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class BattleActivity : AppCompatActivity() {
 
@@ -35,9 +41,17 @@ class BattleActivity : AppCompatActivity() {
     private lateinit var enemyIdleFrame: Bitmap
     private lateinit var enemyAttackFrames: List<Bitmap>
 
+    private lateinit var db: AppDatabase
+    private lateinit var sessionManager: SessionManager
+    private var userId: Int = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_battle)
+
+        db = AppDatabase.getDatabase(this)
+        sessionManager = SessionManager(this)
+        userId = sessionManager.getUserId()
 
         // Inicializar Views
         ivEnemy = findViewById(R.id.iv_enemy)
@@ -60,11 +74,44 @@ class BattleActivity : AppCompatActivity() {
         }
 
         btnInventory.setOnClickListener {
-            Toast.makeText(this, "A abrir inventário de combate...", Toast.LENGTH_SHORT).show()
+            val bottomSheet = InventoryBottomSheet { item ->
+                handleItemUse(item)
+            }
+            bottomSheet.show(supportFragmentManager, "InventoryBottomSheet")
         }
 
         btnFlee.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun handleItemUse(item: Item) {
+        findViewById<View>(R.id.btn_attack).isEnabled = false
+        
+        when (item.tipo) {
+            "CURA" -> {
+                heroEnergy += item.valor
+                if (heroEnergy > 100) heroEnergy = 100
+                Toast.makeText(this, "Usaste ${item.nome}! +${item.valor} HP", Toast.LENGTH_SHORT).show()
+                updateStatus()
+                // Após curar, o inimigo ataca
+                handler.postDelayed({ performEnemyAttack() }, 1000)
+            }
+            "DANO" -> {
+                enemyHp -= item.valor
+                if (enemyHp < 0) enemyHp = 0
+                Toast.makeText(this, "Usaste ${item.nome}! -${item.valor} HP ao inimigo", Toast.LENGTH_SHORT).show()
+                updateStatus()
+                
+                if (enemyHp <= 0) {
+                    concederRecompensas()
+                } else {
+                    handler.postDelayed({ performEnemyAttack() }, 1000)
+                }
+            }
+            else -> {
+                findViewById<View>(R.id.btn_attack).isEnabled = true
+            }
         }
     }
 
@@ -99,19 +146,16 @@ class BattleActivity : AppCompatActivity() {
     }
 
     private fun performHeroAttack() {
-        // Bloquear botões durante animação
         findViewById<View>(R.id.btn_attack).isEnabled = false
 
         animateAttack(ivHero, heroAttackFrames, heroIdleFrame) {
-            // Lógica de dano ao inimigo
             enemyHp -= 20
             if (enemyHp < 0) enemyHp = 0
             updateStatus()
 
             if (enemyHp <= 0) {
-                showVictoryDialog()
+                concederRecompensas()
             } else {
-                // Contra-ataque do inimigo após 1 segundo
                 handler.postDelayed({
                     performEnemyAttack()
                 }, 1000)
@@ -121,7 +165,6 @@ class BattleActivity : AppCompatActivity() {
 
     private fun performEnemyAttack() {
         animateAttack(ivEnemy, enemyAttackFrames, enemyIdleFrame) {
-            // Lógica de dano ao herói (reduz energia)
             heroEnergy -= 15
             if (heroEnergy < 0) heroEnergy = 0
             updateStatus()
@@ -136,15 +179,10 @@ class BattleActivity : AppCompatActivity() {
     }
 
     private fun animateAttack(imageView: ImageView, attackFrames: List<Bitmap>, idleFrame: Bitmap, onComplete: () -> Unit) {
-        // Frame 1
         imageView.setImageBitmap(attackFrames[0])
-        
         handler.postDelayed({
-            // Frame 2
             imageView.setImageBitmap(attackFrames[1])
-            
             handler.postDelayed({
-                // Volta ao Idle
                 imageView.setImageBitmap(idleFrame)
                 onComplete()
             }, 200)
@@ -162,14 +200,36 @@ class BattleActivity : AppCompatActivity() {
         tvHeroStamina.text = "$heroStamina/100"
     }
 
-    private fun showVictoryDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Vitória!")
-            .setMessage("Derrotaste o inimigo e ganhaste XP!")
-            .setPositiveButton("Continuar") { _, _ ->
-                finish()
+    private fun concederRecompensas() {
+        val xpGanho = Random.nextInt(20, 51)
+        var itemGanho: String? = null
+        
+        lifecycleScope.launch {
+            db.userDao().addXp(userId, xpGanho)
+            
+            if (Random.nextFloat() <= 0.3f) {
+                val potion = db.userDao().getItemByName(userId, "Poção de Vida")
+                if (potion != null) {
+                    db.userDao().updateItemQuantity(potion.id, potion.quantidade + 1)
+                } else {
+                    db.userDao().insertItem(Item(userId = userId, nome = "Poção de Vida", descricao = "Cura 30 HP", tipo = "CURA", valor = 30, quantidade = 1, imagemRes = "inventario"))
+                }
+                itemGanho = "Poção de Vida"
             }
-            .setCancelable(false)
-            .show()
+
+            val message = StringBuilder("Ganhaste $xpGanho XP!")
+            if (itemGanho != null) {
+                message.append("\nEncontraste um item: $itemGanho!")
+            }
+
+            AlertDialog.Builder(this@BattleActivity)
+                .setTitle("Vitória!")
+                .setMessage(message.toString())
+                .setPositiveButton("Incrível!") { _, _ ->
+                    finish()
+                }
+                .setCancelable(false)
+                .show()
+        }
     }
 }
