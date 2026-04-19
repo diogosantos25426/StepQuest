@@ -5,14 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-@Database(entities = [User::class, WalkingSession::class, Item::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, WalkingSession::class, Item::class, Quest::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun sessionDao(): SessionDao
+    abstract fun questDao(): QuestDao
 
     companion object {
         @Volatile
@@ -26,24 +24,13 @@ abstract class AppDatabase : RoomDatabase() {
                     "stepquest_database"
                 )
                 .fallbackToDestructiveMigration()
-                .addCallback(DatabaseCallback(context))
                 .build()
                 INSTANCE = instance
                 instance
             }
         }
-
-        private class DatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
-            override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
-                // Nota: No primeiro login real, o userId ainda não é conhecido.
-                // Esta lógica de pre-populate aqui é genérica. 
-                // Numa app real, isto seria feito após o registo do utilizador.
-            }
-        }
     }
     
-    // Função auxiliar para popular itens para um utilizador específico
     suspend fun populateInitialItems(userId: Int) {
         val dao = userDao()
         dao.insertItem(Item(userId = userId, nome = "Poção de Vida", descricao = "Cura 30 HP", tipo = "CURA", valor = 30, quantidade = 5, imagemRes = "inventario"))

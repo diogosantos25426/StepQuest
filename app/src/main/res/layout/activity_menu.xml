@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/fundo">
 
-    <!-- Top Profile Header -->
+    <!-- Top Profile Header - Descido para evitar sobreposição e melhorar estética -->
     <ImageButton
         android:id="@+id/btn_info"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@android:drawable/ic_dialog_info"
@@ -75,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/moldura" />
+            android:src="@drawable/moldurageralcombate" />
 
         <TextView
             android:id="@+id/tv_steps_dashboard"
@@ -88,18 +91,21 @@
             android:textStyle="bold" />
     </FrameLayout>
 
-    <!-- Center Hero Animation -->
+    <!-- Center Hero Animation - Descido com bias para ficar mais perto do menu -->
+
+    <!-- Bottom Navigation Grid - Ícones aumentados e com moldura de combate -->
     <ImageView
         android:id="@+id/iv_hero_walk"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:contentDescription="Hero Walking"
         app:layout_constraintBottom_toTopOf="@+id/gl_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fl_steps" />
+        app:layout_constraintTop_toBottomOf="@+id/fl_steps"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- Bottom Navigation Grid -->
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gl_navigation"
         android:layout_width="match_parent"
@@ -113,16 +119,16 @@
         <FrameLayout
             android:id="@+id/btn_nav_map"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             app:layout_columnWeight="1">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/moldura" />
+                android:src="@drawable/moldurageralcombate" />
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:src="@drawable/mapa" />
         </FrameLayout>
@@ -131,16 +137,16 @@
         <FrameLayout
             android:id="@+id/btn_nav_inventory"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             app:layout_columnWeight="1">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/moldura" />
+                android:src="@drawable/moldurageralcombate" />
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:src="@drawable/inventario" />
         </FrameLayout>
@@ -149,16 +155,16 @@
         <FrameLayout
             android:id="@+id/btn_nav_quests"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             app:layout_columnWeight="1">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/moldura" />
+                android:src="@drawable/moldurageralcombate" />
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:src="@drawable/missoes" />
         </FrameLayout>
@@ -167,16 +173,16 @@
         <FrameLayout
             android:id="@+id/btn_nav_stats"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             app:layout_columnWeight="1">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/moldura" />
+                android:src="@drawable/moldurageralcombate" />
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:src="@drawable/estatisticas" />
         </FrameLayout>

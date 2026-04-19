@@ -22,7 +22,7 @@ class MenuActivity : AppCompatActivity() {
     
     private val handler = Handler(Looper.getMainLooper())
     private var currentFrame = 0
-    private val frameCount = 2 // Ajustado para um ciclo comum de caminhada (4 frames)
+    private val frameCount = 4
     private lateinit var frames: List<Bitmap>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +49,18 @@ class MenuActivity : AppCompatActivity() {
             startActivity(Intent(this, MapActivity::class.java))
         }
 
+        btnQuests.setOnClickListener {
+            startActivity(Intent(this, QuestsActivity::class.java))
+        }
+
+        btnInventory.setOnClickListener {
+            startActivity(Intent(this, InventoryActivity::class.java))
+        }
+
         val soonMessage = { name: String -> 
             Toast.makeText(this, "$name (Brevemente)", Toast.LENGTH_SHORT).show()
         }
 
-        btnInventory.setOnClickListener { soonMessage("Inventário") }
-        btnQuests.setOnClickListener { soonMessage("Missões") }
         btnStats.setOnClickListener { soonMessage("Estatísticas") }
         btnInfo.setOnClickListener { soonMessage("Informações") }
 
@@ -72,7 +78,6 @@ class MenuActivity : AppCompatActivity() {
         val spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.spritesheet_heroi, options)
 
         if (spriteSheet != null) {
-            // Assume frames estão organizados horizontalmente
             val frameWidth = spriteSheet.width / frameCount
             val frameHeight = spriteSheet.height
             
@@ -83,7 +88,6 @@ class MenuActivity : AppCompatActivity() {
                 heroImageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 startAnimation()
             } catch (e: Exception) {
-                // Fallback se o cálculo do frame falhar (ex: imagem menor que o esperado)
                 heroImageView.setImageResource(R.drawable.spritesheet_heroi)
             }
         }
@@ -94,7 +98,7 @@ class MenuActivity : AppCompatActivity() {
             if (::frames.isInitialized && frames.isNotEmpty()) {
                 heroImageView.setImageBitmap(frames[currentFrame])
                 currentFrame = (currentFrame + 1) % frames.size
-                handler.postDelayed(this, 150) // Velocidade da caminhada
+                handler.postDelayed(this, 150)
             }
         }
     }
