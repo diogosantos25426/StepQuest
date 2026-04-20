@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/moldurageralcombate" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="40dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INFORMAÇÕES"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tv_dialog_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="StepQuest v1.0\n\nTransforma os teus passos reais em poder no mundo RPG!\n\n- Mapa: Explora novos níveis.\n- Inventário: Gere os teus itens.\n- Missões: Ganha XP e recompensas.\n\nContinua a caminhar, Herói!"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btn_dialog_ok"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_medieval"
+            android:text="FECHAR"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:backgroundTint="@null" />
+    </LinearLayout>
+</FrameLayout>

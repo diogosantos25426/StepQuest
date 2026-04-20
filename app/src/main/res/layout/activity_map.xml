@@ -6,31 +6,16 @@
     android:layout_height="match_parent"
     android:background="@drawable/fundo_mapa">
 
-    <!-- Back Button - Descido para melhor usabilidade -->
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/btn_medieval"
-        android:src="@android:drawable/ic_menu_revert"
-        android:tint="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Top Progress Bar - Alinhada com o novo posicionamento do botão -->
+    <!-- Top Progress Bar -->
     <FrameLayout
         android:id="@+id/progress_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_back"
-        app:layout_constraintTop_toTopOf="@id/btn_back"
-        app:layout_constraintBottom_toBottomOf="@id/btn_back">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="match_parent"
@@ -58,8 +43,10 @@
             android:textStyle="bold" />
     </FrameLayout>
 
-    <!-- Level Pins e Caminhos (Dotted Lines) -->
-    <!-- Level 1 -->
+    <!-- Path Trace e Pins -->
+
+    <!-- Back Button - Movido para o fundo -->
+
     <ImageButton
         android:id="@+id/btn_level_1"
         android:layout_width="70dp"
@@ -69,16 +56,13 @@
         android:src="@drawable/pin_disponivel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="0.299"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress_container"
-        app:layout_constraintVertical_bias="0.969" />
-
-    <!-- Resto dos Pins omitidos para brevidade no edit, mantendo a estrutura do ficheiro original nos pontos relevantes -->
-    <!-- ... (Manter todos os outros ImageButtons e ImageViews de caminhos do original) ... -->
+        app:layout_constraintVertical_bias="0.712" />
 
     <ImageButton
-        android:id="@+id/btn_level_8"
+        android:id="@+id/btn_level_2"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@android:color/transparent"
@@ -86,10 +70,10 @@
         android:src="@drawable/pin_bloqueado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintHorizontal_bias="0.589"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress_container"
-        app:layout_constraintVertical_bias="0.355" />
+        app:layout_constraintVertical_bias="0.434" />
 
     <ImageButton
         android:id="@+id/btn_level_3"
@@ -100,11 +84,22 @@
         android:src="@drawable/pin_bloqueado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress_container"
-        app:layout_constraintVertical_bias="0.749" />
+        app:layout_constraintVertical_bias="0.141" />
 
-    <!-- Omitidos os outros pins para focar no pedido de layout principal -->
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/btn_medieval"
+        android:src="@android:drawable/ic_menu_revert"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

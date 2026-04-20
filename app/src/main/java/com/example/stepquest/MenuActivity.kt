@@ -6,11 +6,14 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class MenuActivity : AppCompatActivity() {
@@ -22,7 +25,7 @@ class MenuActivity : AppCompatActivity() {
     
     private val handler = Handler(Looper.getMainLooper())
     private var currentFrame = 0
-    private val frameCount = 4
+    private val frameCount = 3
     private lateinit var frames: List<Bitmap>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +65,31 @@ class MenuActivity : AppCompatActivity() {
         }
 
         btnStats.setOnClickListener { soonMessage("Estatísticas") }
-        btnInfo.setOnClickListener { soonMessage("Informações") }
+        
+        // Custom Info Dialog
+        btnInfo.setOnClickListener {
+            showCustomInfoDialog()
+        }
 
         setupHeroAnimation()
+    }
+
+    private fun showCustomInfoDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_info, null)
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogTheme)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<Button>(R.id.btn_dialog_ok).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Se quiseres mudar a fonte via código caso adiciones um .ttf:
+        // val medievalFont = ResourcesCompat.getFont(this, R.font.tua_fonte)
+        // dialogView.findViewById<TextView>(R.id.tv_dialog_title).typeface = medievalFont
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
     }
 
     private fun setupPlaceholderData() {
@@ -78,11 +103,12 @@ class MenuActivity : AppCompatActivity() {
         val spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.spritesheet_heroi, options)
 
         if (spriteSheet != null) {
-            val frameWidth = spriteSheet.width / frameCount
+            val actualFrameCount = if (spriteSheet.width > spriteSheet.height) 2 else 1
+            val frameWidth = spriteSheet.width / actualFrameCount
             val frameHeight = spriteSheet.height
             
             try {
-                frames = List(frameCount) { i ->
+                frames = List(actualFrameCount) { i ->
                     Bitmap.createBitmap(spriteSheet, i * frameWidth, 0, frameWidth, frameHeight)
                 }
                 heroImageView.scaleType = ImageView.ScaleType.FIT_CENTER
@@ -98,7 +124,7 @@ class MenuActivity : AppCompatActivity() {
             if (::frames.isInitialized && frames.isNotEmpty()) {
                 heroImageView.setImageBitmap(frames[currentFrame])
                 currentFrame = (currentFrame + 1) % frames.size
-                handler.postDelayed(this, 150)
+                handler.postDelayed(this, 300)
             }
         }
     }

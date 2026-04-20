@@ -1,7 +1,7 @@
 package com.example.stepquest
 
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +28,8 @@ class QuestsActivity : AppCompatActivity() {
         adapter = QuestAdapter(emptyList())
         recyclerView.adapter = adapter
 
-        findViewById<Button>(R.id.btn_back_quests).setOnClickListener {
+        // Corrigido: Usando View ou ImageButton para evitar ClassCastException
+        findViewById<View>(R.id.btn_back_quests).setOnClickListener {
             finish()
         }
 

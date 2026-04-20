@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     
+    // Splash Screen API
+    implementation(libs.androidx.core.splashscreen)
+    
     // Novas dependências para UI Clássica e Inventário
     implementation(libs.material)
     implementation(libs.androidx.recyclerview)
