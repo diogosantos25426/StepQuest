@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Tema Principal da App (Compatível com AppCompatActivity) -->
+    <!-- Tema Principal da App -->
     <style name="Theme.StepQuest" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Cores principais -->
         <item name="colorPrimary">@color/rpg_dark_green</item>
         <item name="colorPrimaryDark">#101D14</item>
         <item name="colorAccent">#FFD700</item>
-
-        <!-- Garantir compatibilidade com Material3 se necessário -->
         <item name="android:windowBackground">@color/rpg_dark_green</item>
     </style>
 
@@ -19,10 +16,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <!-- 1. Estilo para o Splash Screen do Sistema (Android 12+) -->
+    <!-- Estilo para o Splash Screen API -->
+    <!-- Como a API só aceita cores, usamos o fundo verde aqui e o ícone transparente -->
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/rpg_dark_green</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <!-- Usamos um ícone vazio para não aparecer nada por cima do background da activity -->
+        <item name="windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/Theme.StepQuest</item>
     </style>
 

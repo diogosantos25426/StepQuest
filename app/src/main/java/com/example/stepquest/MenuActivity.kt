@@ -25,7 +25,7 @@ class MenuActivity : AppCompatActivity() {
     
     private val handler = Handler(Looper.getMainLooper())
     private var currentFrame = 0
-    private val frameCount = 3
+    private val frameCount = 6
     private lateinit var frames: List<Bitmap>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,10 +84,6 @@ class MenuActivity : AppCompatActivity() {
             dialog.dismiss()
         }
 
-        // Se quiseres mudar a fonte via código caso adiciones um .ttf:
-        // val medievalFont = ResourcesCompat.getFont(this, R.font.tua_fonte)
-        // dialogView.findViewById<TextView>(R.id.tv_dialog_title).typeface = medievalFont
-
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
     }
@@ -103,12 +99,12 @@ class MenuActivity : AppCompatActivity() {
         val spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.spritesheet_heroi, options)
 
         if (spriteSheet != null) {
-            val actualFrameCount = if (spriteSheet.width > spriteSheet.height) 2 else 1
-            val frameWidth = spriteSheet.width / actualFrameCount
+            // Configurado para usar exatamente 6 frames como solicitado
+            val frameWidth = spriteSheet.width / frameCount
             val frameHeight = spriteSheet.height
             
             try {
-                frames = List(actualFrameCount) { i ->
+                frames = List(frameCount) { i ->
                     Bitmap.createBitmap(spriteSheet, i * frameWidth, 0, frameWidth, frameHeight)
                 }
                 heroImageView.scaleType = ImageView.ScaleType.FIT_CENTER
@@ -124,7 +120,7 @@ class MenuActivity : AppCompatActivity() {
             if (::frames.isInitialized && frames.isNotEmpty()) {
                 heroImageView.setImageBitmap(frames[currentFrame])
                 currentFrame = (currentFrame + 1) % frames.size
-                handler.postDelayed(this, 300)
+                handler.postDelayed(this, 130) // Velocidade ajustada para 6 frames (mais fluida)
             }
         }
     }
