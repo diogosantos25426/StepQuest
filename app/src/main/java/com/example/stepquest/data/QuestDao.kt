@@ -19,4 +19,7 @@ interface QuestDao {
 
     @Query("SELECT * FROM quests")
     suspend fun getAllQuests(): List<Quest>
+
+    @Query("SELECT * FROM quests WHERE tipo = :tipo AND isConcluida = 0")
+    suspend fun getActiveQuestsByType(tipo: String): List<Quest>
 }

@@ -74,18 +74,11 @@
         app:layout_constraintStart_toStartOf="@+id/ll_bars"
         app:layout_constraintTop_toBottomOf="@+id/ll_bars">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/moldurageralcombate" />
-
         <TextView
             android:id="@+id/tv_steps_dashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Passos: 1200 / Meta: 5000"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold" />

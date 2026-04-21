@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface UserDao {
@@ -27,6 +28,12 @@ interface UserDao {
 
     @Query("UPDATE users SET xp_total = xp_total + :xp WHERE id = :userId")
     suspend fun addXp(userId: Int, xp: Int)
+
+    @Update
+    suspend fun updateUser(user: User)
+
+    @Query("SELECT SUM(steps) FROM walking_sessions WHERE userId = :userId")
+    suspend fun getTotalSteps(userId: Int): Int?
 
     // --- Itens ---
 

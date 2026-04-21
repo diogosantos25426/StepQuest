@@ -44,6 +44,7 @@ class BattleActivity : AppCompatActivity() {
     private lateinit var db: AppDatabase
     private lateinit var sessionManager: SessionManager
     private var userId: Int = -1
+    private var levelId: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,7 @@ class BattleActivity : AppCompatActivity() {
         db = AppDatabase.getDatabase(this)
         sessionManager = SessionManager(this)
         userId = sessionManager.getUserId()
+        levelId = intent.getIntExtra("LEVEL_ID", 1)
 
         // Inicializar Views
         ivEnemy = findViewById(R.id.iv_enemy)
@@ -206,6 +208,27 @@ class BattleActivity : AppCompatActivity() {
         
         lifecycleScope.launch {
             db.userDao().addXp(userId, xpGanho)
+            
+            // Atualizar nível desbloqueado se for o caso
+            val lastUnlocked = db.userDao().getLastUnlockedLevel(userId)
+            if (levelId >= lastUnlocked) {
+                db.userDao().updateLastUnlockedLevel(userId, levelId + 1)
+            }
+
+            // Atualizar Quests de Combate
+            val activeQuests = db.questDao().getActiveQuests()
+            activeQuests.forEach { quest ->
+                if (quest.tipo == "COMBATE" && !quest.isConcluida) {
+                    val novoProgresso = quest.progressoAtual + 1
+                    if (novoProgresso >= quest.objetivoQuantidade) {
+                        db.questDao().updateQuest(quest.copy(progressoAtual = novoProgresso, isConcluida = true))
+                        db.userDao().addXp(userId, quest.recompensaXP)
+                        Toast.makeText(this@BattleActivity, "Missão Cumprida: ${quest.titulo}!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        db.questDao().updateQuest(quest.copy(progressoAtual = novoProgresso))
+                    }
+                }
+            }
             
             if (Random.nextFloat() <= 0.3f) {
                 val potion = db.userDao().getItemByName(userId, "Poção de Vida")

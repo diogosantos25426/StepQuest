@@ -15,6 +15,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.stepquest.data.AppDatabase
+import com.example.stepquest.data.SessionManager
+import kotlinx.coroutines.launch
 
 class MenuActivity : AppCompatActivity() {
 
@@ -28,9 +32,17 @@ class MenuActivity : AppCompatActivity() {
     private val frameCount = 6
     private lateinit var frames: List<Bitmap>
 
+    private lateinit var db: AppDatabase
+    private lateinit var sessionManager: SessionManager
+    private var userId: Int = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+
+        db = AppDatabase.getDatabase(this)
+        sessionManager = SessionManager(this)
+        userId = sessionManager.getUserId()
 
         // Initialize UI Components
         heroImageView = findViewById(R.id.iv_hero_walk)
@@ -43,9 +55,6 @@ class MenuActivity : AppCompatActivity() {
         val btnInventory = findViewById<View>(R.id.btn_nav_inventory)
         val btnQuests = findViewById<View>(R.id.btn_nav_quests)
         val btnStats = findViewById<View>(R.id.btn_nav_stats)
-
-        // Set Placeholder Data
-        setupPlaceholderData()
 
         // Navigation Logic
         btnMap.setOnClickListener {
@@ -74,6 +83,11 @@ class MenuActivity : AppCompatActivity() {
         setupHeroAnimation()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateRealData()
+    }
+
     private fun showCustomInfoDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_info, null)
         val dialog = AlertDialog.Builder(this, R.style.CustomDialogTheme)
@@ -88,10 +102,18 @@ class MenuActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun setupPlaceholderData() {
-        pbEnergy.progress = 80
-        pbXp.progress = 40
-        tvSteps.text = "Passos: 1200 / Meta: 5000"
+    private fun updateRealData() {
+        lifecycleScope.launch {
+            val user = db.userDao().getUserById(userId)
+            if (user != null) {
+                pbXp.progress = user.xpTotal % 100 // Exemplo: nível a cada 100 XP
+                pbEnergy.progress = 100 // Pode ser ligado a uma lógica real depois
+                
+                val totalSteps = db.userDao().getTotalSteps(userId) ?: 0
+                val meta = 5000
+                tvSteps.text = "Passos: $totalSteps / Meta: $meta"
+            }
+        }
     }
 
     private fun setupHeroAnimation() {
@@ -99,7 +121,6 @@ class MenuActivity : AppCompatActivity() {
         val spriteSheet = BitmapFactory.decodeResource(resources, R.drawable.spritesheet_heroi, options)
 
         if (spriteSheet != null) {
-            // Configurado para usar exatamente 6 frames como solicitado
             val frameWidth = spriteSheet.width / frameCount
             val frameHeight = spriteSheet.height
             
@@ -120,7 +141,7 @@ class MenuActivity : AppCompatActivity() {
             if (::frames.isInitialized && frames.isNotEmpty()) {
                 heroImageView.setImageBitmap(frames[currentFrame])
                 currentFrame = (currentFrame + 1) % frames.size
-                handler.postDelayed(this, 130) // Velocidade ajustada para 6 frames (mais fluida)
+                handler.postDelayed(this, 130)
             }
         }
     }
